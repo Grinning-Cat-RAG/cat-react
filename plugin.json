@@ -1,0 +1,9 @@
+{
+    "name": "React Agent",
+    "version": "0.1.0",
+    "description": "ReAct agent for Grinning Cat.",
+    "author_name": "Matteo Cacciola",
+    "author_url": "https://github.com/matteocacciola",
+    "plugin_url": "https://github.com/matteocacciola/cat-react",
+    "tags": "Agent, ReAct"
+}
