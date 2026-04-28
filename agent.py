@@ -1,5 +1,5 @@
 import json
-from typing import Dict, Type, List
+from typing import Dict, Type
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableConfig
@@ -7,7 +7,6 @@ from pydantic import ConfigDict, Field
 
 from cat import AgenticWorkflowConfig, AgenticWorkflowOutput
 from cat.services.factory.agentic_workflow import BaseAgenticWorkflowHandler
-from cat.services.memory.models import VectorMemoryType, RecallSettings, DocumentRecall
 
 
 class ReActAgentWorkflow(BaseAgenticWorkflowHandler):
@@ -44,16 +43,6 @@ class ReActAgentWorkflow(BaseAgenticWorkflowHandler):
             raise ValueError("max_procedures_calls must be greater than 0")
         if self.max_iterations < 1:
             raise ValueError("max_iterations must be greater than 0")
-
-    async def context_retrieval(self, collection: VectorMemoryType, params: RecallSettings) -> List[DocumentRecall]:
-        if params.k:
-            memories = await self.vector_memory_handler.recall_tenant_memory_from_embedding(
-                str(collection), params.embedding, params.metadata, params.k, params.threshold
-            )
-            return memories
-
-        memories = await self.vector_memory_handler.recall_tenant_memory(str(collection))
-        return memories
 
     async def _run_no_tool_binding(self, prompt: ChatPromptTemplate) -> AgenticWorkflowOutput:
         prompt_variables = self._task.prompt_variables or {}
